@@ -33,22 +33,23 @@ const Text = styled.div`
 class Scanner extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = { isScannerRunning: false, barcode: null, barcodeValue: null };
+    this.state = { isScannerRunning: false, barcode: null };
     this.initializeScanner = this.initializeScanner.bind(this);
   }
 
   initializeScanner() {
     const barcodeMap = this.props.barcodeMap;
     const startScanner = () => {
+      this.setState({ barcode: null });
       Quagga.start();
       this.setState({ isScannerRunning: true });
     };
-    const stopScanner = (barcode, barcodeValue) => {
+    const stopScanner = barcode => {
       Quagga.stop();
       this.setState({
         isScannerRunning: false,
         barcode: barcode,
-        barcodeValue: barcodeValue
+        barcodeValue: barcodeMap[barcode]
       });
     };
     Quagga.init(
@@ -135,15 +136,15 @@ class Scanner extends React.PureComponent {
       if (barcode in barcodeMap) {
         const barcodeValue = barcodeMap[barcode];
         console.log(`Found a match: ${barcode} is mapped to ${barcodeValue}`);
-        stopScanner(barcode, barcodeValue);
+        stopScanner(barcode);
       }
     });
   }
 
   render() {
     const isScannerRunning = this.state.isScannerRunning;
+    const barcodeMap = this.props.barcodeMap;
     const barcode = this.state.barcode;
-    const barcodeValue = this.state.barcodeValue;
     console.log(isScannerRunning);
     return (
       <React.Fragment>
@@ -155,8 +156,8 @@ class Scanner extends React.PureComponent {
             </Button>
           </ButtonWrapper>
         )}
-        {barcode && barcodeValue && (
-          <Text>{`Barcode: ${barcode} | Value: ${barcodeValue}`}</Text>
+        {barcode && (
+          <Text>{`Barcode: ${barcode} | Value: ${barcodeMap[barcode]}`}</Text>
         )}
       </React.Fragment>
     );
