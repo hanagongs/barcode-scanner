@@ -1,34 +1,45 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import styled from 'styled-components';
 import Quagga from 'quagga';
 
 import Button from './Button';
+import './styles.css';
+
+const ScannerWrapper = styled.div`
+  width: 100%;
+  margin-top: 40%;
+  margin-bottom: 20px;
+
+  display: flex;
+  vertical-align: middle;
+  align-items: center;
+  justify-content: center;
+`;
+
+const ButtonWrapper = styled.div`
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+`;
 
 class Scanner extends React.PureComponent {
   constructor(props) {
     super(props);
-    const { barcodeMap } = this.props;
     this.state = { isScannerRunning: false };
-
-    this.startScanner = this.startScanner.bind(this);
-    this.stopScanner = this.stopScanner.bind(this);
     this.initializeScanner = this.initializeScanner.bind(this);
   }
 
-  startScanner() {
-    this.initializeScanner();
-
-    Quagga.start();
-    this.setState({ isScannerRunning: true });
-  }
-
-  stopScanner() {
-    Quagga.stop();
-    this.setState({ isScannerRunning: false });
-  }
-
   initializeScanner() {
+    const barcodeMap = this.props.barcodeMap;
+    const startScanner = () => {
+      Quagga.start();
+      this.setState({ isScannerRunning: true });
+    };
+    const stopScanner = () => {
+      Quagga.stop();
+      this.setState({ isScannerRunning: false });
+    };
     Quagga.init(
       {
         inputStream: {
@@ -61,6 +72,7 @@ class Scanner extends React.PureComponent {
           return;
         }
         console.log('Initialization finished. Ready to start');
+        startScanner();
       }
     );
 
@@ -109,23 +121,27 @@ class Scanner extends React.PureComponent {
     Quagga.onDetected(function(result) {
       const barcode = result.codeResult.code;
       console.log('Barcode detected and processed : [' + barcode + ']');
-      if (barcode in this.barcodeMap) {
+      if (barcode in barcodeMap) {
         console.log(
-          `Found a match: ${barcode} is mapped to ${this.barcodeMap[barcode]}`
+          `Found a match: ${barcode} is mapped to ${barcodeMap[barcode]}`
         );
-        this.stopScanner();
+        stopScanner();
       }
     });
   }
 
   render() {
-    console.log(this.isScannerRunning);
+    const isScannerRunning = this.state.isScannerRunning;
+    console.log(isScannerRunning);
     return (
       <React.Fragment>
-        {this.isScannerRunning ? (
-          <div id="scanner-container" />
-        ) : (
-          <Button onClick={() => this.startScanner()}>Start Scanner</Button>
+        <ScannerWrapper id="scanner-container" />
+        {!isScannerRunning && (
+          <ButtonWrapper>
+            <Button onClick={() => this.initializeScanner()}>
+              Start Scanner
+            </Button>
+          </ButtonWrapper>
         )}
       </React.Fragment>
     );
@@ -133,7 +149,6 @@ class Scanner extends React.PureComponent {
 }
 
 Scanner.propTypes = {
-  isScannerRunning: PropTypes.bool.isRequired,
   barcodeMap: PropTypes.object
 };
 
@@ -141,8 +156,4 @@ Scanner.defaultProps = {
   barcodeMap: {}
 };
 
-const mapStateToProps = state => ({
-  isScannerRunning: state.isScannerRunning || false
-});
-
-export default connect(mapStateToProps, null)(Scanner);
+export default Scanner;
