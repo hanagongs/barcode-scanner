@@ -1,10 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Quagga from 'quagga';
 
-class Scanner extends React.Component {
-  constructor() {
-    super();
+import Button from './Button';
+
+class Scanner extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    const { barcodeMap } = this.props;
     this.state = { isScannerRunning: false };
 
     this.startScanner = this.startScanner.bind(this);
@@ -13,6 +17,8 @@ class Scanner extends React.Component {
   }
 
   startScanner() {
+    this.initializeScanner();
+
     Quagga.start();
     this.setState({ isScannerRunning: true });
   }
@@ -55,9 +61,9 @@ class Scanner extends React.Component {
           return;
         }
         console.log('Initialization finished. Ready to start');
-        this.startScanner();
       }
     );
+
     Quagga.onProcessed(function(result) {
       var drawingCtx = Quagga.canvas.ctx.overlay,
         drawingCanvas = Quagga.canvas.dom.overlay;
@@ -103,9 +109,9 @@ class Scanner extends React.Component {
     Quagga.onDetected(function(result) {
       const barcode = result.codeResult.code;
       console.log('Barcode detected and processed : [' + barcode + ']');
-      if (barcode in mockData) {
+      if (barcode in this.barcodeMap) {
         console.log(
-          `Found a match: ${barcode} is mapped to ${mockData[barcode]}`
+          `Found a match: ${barcode} is mapped to ${this.barcodeMap[barcode]}`
         );
         this.stopScanner();
       }
@@ -113,12 +119,30 @@ class Scanner extends React.Component {
   }
 
   render() {
+    console.log(this.isScannerRunning);
     return (
       <React.Fragment>
-        <div id="scanner-container" />
+        {this.isScannerRunning ? (
+          <div id="scanner-container" />
+        ) : (
+          <Button onClick={() => this.startScanner()}>Start Scanner</Button>
+        )}
       </React.Fragment>
     );
   }
 }
 
-export default Scanner;
+Scanner.propTypes = {
+  isScannerRunning: PropTypes.bool.isRequired,
+  barcodeMap: PropTypes.object
+};
+
+Scanner.defaultProps = {
+  barcodeMap: {}
+};
+
+const mapStateToProps = state => ({
+  isScannerRunning: state.isScannerRunning || false
+});
+
+export default connect(mapStateToProps, null)(Scanner);
