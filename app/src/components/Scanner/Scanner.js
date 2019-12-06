@@ -8,7 +8,7 @@ import './styles.css';
 
 const ScannerWrapper = styled.div`
   width: 100%;
-  margin-top: 40%;
+  margin-top: 20%;
   margin-bottom: 20px;
 
   display: flex;
