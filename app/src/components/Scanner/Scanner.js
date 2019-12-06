@@ -11,6 +11,7 @@ const ScannerWrapper = styled.div`
   margin-top: 20%;
   margin-bottom: 20px;
 
+  postition: relative;
   display: flex;
   vertical-align: middle;
   align-items: center;
@@ -23,10 +24,16 @@ const ButtonWrapper = styled.div`
   margin-top: 20px;
 `;
 
+const Text = styled.div`
+  margin-top: 20px;
+  color: red;
+  text-align: center;
+`;
+
 class Scanner extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = { isScannerRunning: false };
+    this.state = { isScannerRunning: false, barcode: null, barcodeValue: null };
     this.initializeScanner = this.initializeScanner.bind(this);
   }
 
@@ -36,9 +43,13 @@ class Scanner extends React.PureComponent {
       Quagga.start();
       this.setState({ isScannerRunning: true });
     };
-    const stopScanner = () => {
+    const stopScanner = (barcode, barcodeValue) => {
       Quagga.stop();
-      this.setState({ isScannerRunning: false });
+      this.setState({
+        isScannerRunning: false,
+        barcode: barcode,
+        barcodeValue: barcodeValue
+      });
     };
     Quagga.init(
       {
@@ -122,16 +133,17 @@ class Scanner extends React.PureComponent {
       const barcode = result.codeResult.code;
       console.log('Barcode detected and processed : [' + barcode + ']');
       if (barcode in barcodeMap) {
-        console.log(
-          `Found a match: ${barcode} is mapped to ${barcodeMap[barcode]}`
-        );
-        stopScanner();
+        const barcodeValue = barcodeMap[barcode];
+        console.log(`Found a match: ${barcode} is mapped to ${barcodeValue}`);
+        stopScanner(barcode, barcodeValue);
       }
     });
   }
 
   render() {
     const isScannerRunning = this.state.isScannerRunning;
+    const barcode = this.state.barcode;
+    const barcodeValue = this.state.barcodeValue;
     console.log(isScannerRunning);
     return (
       <React.Fragment>
@@ -142,6 +154,9 @@ class Scanner extends React.PureComponent {
               Start Scanner
             </Button>
           </ButtonWrapper>
+        )}
+        {barcode && barcodeValue && (
+          <Text>{`Barcode: ${barcode} | Value: ${barcodeValue}`}</Text>
         )}
       </React.Fragment>
     );
