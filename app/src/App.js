@@ -1,7 +1,5 @@
-import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
-import MainView from "./views";
+import React from 'react';
+import MainView from './views';
 
 function App() {
   return <MainView />;
