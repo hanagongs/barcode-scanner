@@ -3,6 +3,9 @@
 ## Overview
 Google Sheet, barcode scanner, returns value associated with it
 
+Important:
+Only returns when match from Google Sheets
+
 React app
 Google sheets
 Quagga barcode library
