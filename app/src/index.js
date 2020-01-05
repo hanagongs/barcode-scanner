@@ -6,9 +6,15 @@ import configureStore from './store';
 import App from './App';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
+import fetchBarcodeData from './services/fetchBarcodeData';
+
+const store = configureStore();
+
+console.log('before fetch');
+fetchBarcodeData(store);
 
 ReactDOM.render(
-  <Provider store={configureStore()}>
+  <Provider store={store}>
     <App />
   </Provider>,
   document.getElementById('root')
