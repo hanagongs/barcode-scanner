@@ -18,6 +18,7 @@ async function fetchBarcodeData(store) {
       csv = body;
       console.log(csv);
       // csv to json
+      // return json
       return csv;
     });
   } catch (error) {
