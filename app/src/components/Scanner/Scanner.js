@@ -35,6 +35,7 @@ class Scanner extends React.PureComponent {
     super(props);
     this.state = { isScannerRunning: false, barcode: null };
     this.initializeScanner = this.initializeScanner.bind(this);
+    this.getBarcodeResult = this.getBarcodeResult.bind(this);
   }
 
   initializeScanner() {
@@ -141,11 +142,16 @@ class Scanner extends React.PureComponent {
     });
   }
 
+  getBarcodeResult(barcode) {
+    const barcodeMap = this.props.barcodeMap;
+    if (Object.keys(barcodeMap).includes(barcode))
+      return `Barcode: ${barcode} | Value: ${barcodeMap[barcode]}`;
+    return `Couldn't find mapping for barcode: ${barcode}, please check spreadsheet.`;
+  }
+
   render() {
     const isScannerRunning = this.state.isScannerRunning;
-    const barcodeMap = this.props.barcodeMap;
     const barcode = this.state.barcode;
-    console.log(isScannerRunning);
     return (
       <React.Fragment>
         <ScannerWrapper id="scanner-container" />
@@ -156,9 +162,8 @@ class Scanner extends React.PureComponent {
             </Button>
           </ButtonWrapper>
         )}
-        {barcode && (
-          <Text>{`Barcode: ${barcode} | Value: ${barcodeMap[barcode]}`}</Text>
-        )}
+        {barcode && <Text>{this.getBarcodeResult(barcode)}</Text>}
+        {isScannerRunning && !barcode && <Text>Scan a barcode</Text>}
       </React.Fragment>
     );
   }
