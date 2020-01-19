@@ -1,40 +1,33 @@
 # barcode-scanner
 
 ## Overview
-Google Sheet, barcode scanner, returns value associated with it
+This is a bare-bones app for a very specific use case.
 
-Important:
-Only returns when match from Google Sheets
+This app pulls a mapping of barcodes to another value from a *published* Google Sheet. When using the barcode scanner, if your barcode is in the Google Sheet mapping, the value associated with it is returned.
 
-React app
-Google sheets
-Quagga barcode library
+The barcode scanner utilizes [QuaggaJS](https://serratus.github.io/quaggaJS/).
 
 ## Usage
-Click `Start Scanning`
-Allow usage of your device's camera
-Center your barcode within the viewport
+- Create a Google Spreadsheet with your barcodes and associated values, and (publish it)[https://support.google.com/docs/answer/183965?co=GENIE.Platform%3DDesktop&hl=en] (Doing so makes the spreadsheet public, DO NOT USE THIS WITH SENSITIVE DATA)
+- Update the Barcode Map URL [here](https://github.com/hanaquadara/barcode-scanner/blob/master/app/src/services/fetchBarcodeData.js#L4)
+
+- Click `Start Scanning`
+- Allow usage of your device's camera
+- Center your barcode within the viewport for the scanner to read
+
+or
+
+- Click `Show Barcode Map` to view all barcodes and their associates values that are available in the Google Sheet
 
 ## Pre-requisites
-- Node and npm
-https://www.npmjs.com/get-npm
-
-- An API Key for your Google Sheet
-https://developers.google.com/sheets/api/guides/authorizing#APIKey
 
 - A device with a camera
 
 ## Development
-Set your environment variables
+- Node and [npm](https://www.npmjs.com/get-npm)
 
-API_KEY
-
+```
 cd app/
 npm i
 npm start
-
-## Testing
-npm run test
-
-## Debugging
-Check Google Sheets
+```
