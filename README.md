@@ -8,7 +8,7 @@ This app pulls a mapping of barcodes to another value from a *published* Google 
 The barcode scanner utilizes [QuaggaJS](https://serratus.github.io/quaggaJS/).
 
 ## Usage
-- Create a Google Spreadsheet with your barcodes and associated values, and [publish it](https://support.google.com/docs/answer/183965?co=GENIE.Platform%3DDesktop&hl=en) (Doing so makes the spreadsheet public, DO NOT USE THIS WITH SENSITIVE DATA)
+- Create a Google Spreadsheet with your barcodes and associated values, and [publish it].(https://support.google.com/docs/answer/183965?co=GENIE.Platform%3DDesktop&hl=en) (**Doing so makes the spreadsheet public, DO NOT USE THIS WITH SENSITIVE DATA**)
 - Update the Barcode Map URL [here](https://github.com/hanaquadara/barcode-scanner/blob/master/app/src/services/fetchBarcodeData.js#L4)
 
 - Click `Start Scanning`
