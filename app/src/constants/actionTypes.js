@@ -1,0 +1,1 @@
+export const SET_BARCODE_MAP = 'SET_BARCODE_MAP';

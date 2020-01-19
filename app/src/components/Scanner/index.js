@@ -1,4 +1,4 @@
 import Scanner from './Scanner';
-import Map from './Map';
+import BarcodeMap from './BarcodeMap';
 
-export { Scanner, Map };
+export { Scanner, BarcodeMap };

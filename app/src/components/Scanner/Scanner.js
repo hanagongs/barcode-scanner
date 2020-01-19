@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Quagga from 'quagga';
@@ -21,12 +22,11 @@ const ScannerWrapper = styled.div`
 const ButtonWrapper = styled.div`
   display: block;
   width: 100%;
-  margin-top: 20px;
+  margin-top: 50px;
 `;
 
 const Text = styled.div`
   margin-top: 20px;
-  color: red;
   text-align: center;
 `;
 
@@ -177,4 +177,8 @@ Scanner.defaultProps = {
   barcodeMap: {}
 };
 
-export default Scanner;
+const mapStateToProps = state => {
+  return { barcodeMap: state.barcodes.barcodeMap };
+};
+
+export default connect(mapStateToProps)(Scanner);

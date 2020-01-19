@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
@@ -13,11 +14,10 @@ const ButtonWrapper = styled.div`
 
 const Text = styled.div`
   margin-top: 20px;
-  color: red;
   text-align: center;
 `;
 
-class Scanner extends React.PureComponent {
+class BarcodeMap extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = { showMap: false };
@@ -42,7 +42,7 @@ class Scanner extends React.PureComponent {
         <ButtonWrapper>
           <Button
             onClick={() => this.clickHandler()}
-          >{`${this.getMapButtonText()} Map`}</Button>
+          >{`${this.getMapButtonText()} Barcode Map`}</Button>
         </ButtonWrapper>
 
         {showMap &&
@@ -56,12 +56,16 @@ class Scanner extends React.PureComponent {
   }
 }
 
-Scanner.propTypes = {
+BarcodeMap.propTypes = {
   barcodeMap: PropTypes.object
 };
 
-Scanner.defaultProps = {
+BarcodeMap.defaultProps = {
   barcodeMap: {}
 };
 
-export default Scanner;
+const mapStateToProps = state => {
+  return { barcodeMap: state.barcodes.barcodeMap };
+};
+
+export default connect(mapStateToProps)(BarcodeMap);

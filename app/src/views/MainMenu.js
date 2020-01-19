@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import mockData from './mock_data.json';
+// Needed for styling the barcode scanner
 import './styles.css';
-import { Scanner, Map } from '../components/Scanner';
-import fetchBarcodeData from '../services/fetchBarcodeData';
+
+import { Scanner, BarcodeMap } from '../components/Scanner';
 
 const Wrapper = styled.div`
   width: 100%;
@@ -15,12 +15,10 @@ const Wrapper = styled.div`
 `;
 
 const MainMenu = () => {
-  const barcodeMap = fetchBarcodeData();
-  console.log(barcodeMap);
   return (
     <Wrapper>
-      <Scanner barcodeMap={barcodeMap} />
-      <Map barcodeMap={barcodeMap} />
+      <Scanner />
+      <BarcodeMap />
     </Wrapper>
   );
 };
