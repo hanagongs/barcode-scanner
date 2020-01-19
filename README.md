@@ -10,7 +10,7 @@ The barcode scanner utilizes [QuaggaJS](https://serratus.github.io/quaggaJS/), a
 - EAN
 - EAN-8
 - Code 39
-- Code 39 (Vin)
+- Code 39 (VIN)
 - Codabar
 - UPC
 - UPC-E
