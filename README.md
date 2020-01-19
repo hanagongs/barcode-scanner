@@ -19,13 +19,11 @@ or
 
 - Click `Show Barcode Map` to view all barcodes and their associates values that are available in the Google Sheet
 
-## Pre-requisites
-
-- A device with a camera
-
 ## Development
+- You will need a device with a camera to test on
 - Node and [npm](https://www.npmjs.com/get-npm)
 
+Start the app with:
 ```
 cd app/
 npm i
