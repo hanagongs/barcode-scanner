@@ -5,7 +5,16 @@ This is a bare-bones app for a very specific use case.
 
 This app pulls a mapping of barcodes to another value from a *published* Google Sheet. When using the barcode scanner, if your barcode is in the Google Sheet mapping, the value associated with it is returned.
 
-The barcode scanner utilizes [QuaggaJS](https://serratus.github.io/quaggaJS/).
+The barcode scanner utilizes [QuaggaJS](https://serratus.github.io/quaggaJS/), and supports the following types of barcodes:
+- Code 128
+- EAN
+- EAN-8
+- Code 39
+- Code 39 (Vin)
+- Codabar
+- UPC
+- UPC-E
+- Interleaved 2of5
 
 ## Usage
 - Create a Google Spreadsheet with your barcodes and associated values, and [publish it](https://support.google.com/docs/answer/183965?co=GENIE.Platform%3DDesktop&hl=en). (**Doing so makes the spreadsheet public, DO NOT USE THIS WITH SENSITIVE DATA**)
